@@ -1,0 +1,23 @@
+// Place all the styles related to the homes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.top {
+    margin: 30px auto;
+    &__content {
+        line-height: 50px;
+    }
+    &__login {
+        height: 40px;
+        width: 400px;
+        margin-bottom: 10px;
+    }
+    &__signin {
+        height: 40px;
+        width: 400px;
+    }
+    &__copy {
+        text-align: center;
+    }
+}
