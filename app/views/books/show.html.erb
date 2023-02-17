@@ -41,12 +41,54 @@
                     </td>
                     <td><%= link_to @book.title,book_path(@book) %></td>
                     <td><%= @book.body %></td>
+                    <td>
+
+                    <% if @book.favorited_by?(current_user) %>
+                        <p>
+                            <%= link_to book_favorites_path(@book), method: :delete do %>
+                                <i class="fas fa-heart fas-heart-link"> <%= @book.favorites.count %></i>
+                            <% end %>
+                        </p>
+                    <% else %>
+                        <p>
+                        <%= link_to book_favorites_path(@book), method: :post do %>
+                            <i class="fa-regular fa-heart"> <%= @book.favorites.count %></i>
+                        <% end %>
+                        </p>
+                    <% end %>
+
+
+
+                    </td>
+                    <td>コメント数：<%= @book.book_comments.count %></td>
                     <% if @book.user == current_user %>
                         <td><%= link_to 'Edit',edit_book_path(@book),class:'btn btn-success' %></td>
                         <td><%= link_to 'Destroy',book_path(@book),method: :delete,class:'btn btn-danger', data: { confirm: "本当に削除しますか？" } %></td>
                     <% end %>
                 </tr>
             </table>
+
+            <% @book.book_comments.each do |comment| %>
+                <div class='book__show'>
+                    <div class='book__show__left'>
+                        <%= image_tag comment.user.get_image(30,30) %><br />
+                        <%= link_to comment.user.name,user_path(comment.user) %>
+                    </div>
+                    <div class='book__show__center'>
+                        <%= comment.comment %>
+                    </div>
+                    <% if comment.user == current_user %>
+                        <div class='book__show__right'>
+                            <%= link_to 'Destroy',book_book_comment_path(comment.book,comment),method: :delete,class:'btn btn-danger' %>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+
+            <%= form_with model: [@book, @comment] do |f| %>
+                <%= f.text_area :comment, rows: '5', class:'comment__text' %>
+                <%= f.submit "送信" %>
+            <% end %>
         </div>
     </div>
 </div>
